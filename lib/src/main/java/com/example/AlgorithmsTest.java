@@ -2,7 +2,7 @@ package com.example;
 
 public class AlgorithmsTest {
     public static void main(String[] args) {
-        int[] arr = {2,3,5,7,1,4,6,8};
+        int[] arr = {3,5,7,8,1,2,4,6};
         MergeSort(arr, 0, arr.length/2 - 1, arr.length - 1);
     }
 
@@ -79,7 +79,7 @@ public class AlgorithmsTest {
         for (int k = lo; k <= hi; k++) {
             if(i > mid) a[k] = aux[j++];//如果右半边元素已经取完则从左半边数组取元素放回
             else if(j > hi) a[k] = aux[i++];//如果左半边元素已经取完则从右半边数组取元素放回
-            else if(a[j] < a[i]) a[k] = aux[j++];//如果右半边的当前元素小于左半边的当前元素则取右半边的元素放回
+            else if(aux[j] < aux[i]) a[k] = aux[j++];//如果右半边的当前元素小于左半边的当前元素则取右半边的元素放回
             else a[k] = aux[i++];//最后就是右半边的当前元素大于等于左半边的当前元素取左半边的元素放回
         }
 
