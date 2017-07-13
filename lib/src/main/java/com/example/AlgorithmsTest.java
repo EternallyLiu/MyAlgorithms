@@ -2,8 +2,8 @@ package com.example;
 
 public class AlgorithmsTest {
     public static void main(String[] args) {
-        int[] arr = {5,3,2,4,7,6,1,8};
-        ShellSort(arr);
+        int[] arr = {2,3,5,7,1,4,6,8};
+        MergeSort(arr, 0, arr.length/2 - 1, arr.length - 1);
     }
 
     //选择排序
@@ -65,6 +65,26 @@ public class AlgorithmsTest {
                 }
             }
             h = h / 3;
+        }
+    }
+
+    //归并排序
+    public static void MergeSort(int[] a, int lo, int mid, int hi) {
+        int i = lo, j = mid + 1;
+        int[] aux = new int[hi + 1];
+        for (int k = lo; k <= hi; k++) {
+            aux[k] = a[k];//将分成两半分别排序好的大数组复制一份
+        }
+
+        for (int k = lo; k <= hi; k++) {
+            if(i > mid) a[k] = aux[j++];//如果右半边元素已经取完则从左半边数组取元素放回
+            else if(j > hi) a[k] = aux[i++];//如果左半边元素已经取完则从右半边数组取元素放回
+            else if(a[j] < a[i]) a[k] = aux[j++];//如果右半边的当前元素小于左半边的当前元素则取右半边的元素放回
+            else a[k] = aux[i++];//最后就是右半边的当前元素大于等于左半边的当前元素取左半边的元素放回
+        }
+
+        for (int z = lo; z <= hi; z++) {
+            System.out.print(a[z] + ",");
         }
     }
 }
