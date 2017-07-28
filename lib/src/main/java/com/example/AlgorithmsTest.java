@@ -2,8 +2,11 @@ package com.example;
 
 public class AlgorithmsTest {
     public static void main(String[] args) {
-        int[] arr = {3,2,1,5,4};
-        MergeBU(arr);
+        int[] arr = {3,2,1,2,5,5};
+        QuickSort(arr, 0, arr.length - 1);
+        for (int z = 0; z < arr.length; z++) {
+            System.out.print(arr[z] + ",");
+        }
     }
 
     /**
@@ -115,7 +118,7 @@ public class AlgorithmsTest {
     public static void MergeBU(int[] a) {
         int N = a.length;
 
-        for (int i = 0; i < N; i += 16) {//优化2.先将包含两个元素的每个小数组内部使用插入排序排好
+        for (int i = 0; i < N; i += 2) {//优化2.先将包含两个元素的每个小数组内部使用插入排序排好
             InsertSort(a, i, Math.min(i + 1, N - 1));
         }
         for (int sz = 2; sz < N; sz += sz) {
@@ -129,5 +132,53 @@ public class AlgorithmsTest {
         for (int z = 0; z < a.length; z++) {
             System.out.print(a[z] + ",");
         }
+    }
+
+    /**
+     * 快速排序：速度快，额外占用内存很小
+     * */
+    public static void QuickSort(int[] a, int lo, int hi) {
+        if (hi <= lo) return;
+        /**
+         * 这是《算法》上的方法，看起来不够简洁
+         * int j = partition(a, lo, hi);
+         * 下面我们使用另外一种方法
+         * */
+        int i = lo, j = hi,temp = a[i],t = 0;
+        while (i != j) {
+            while (a[j] >= temp && i < j) j--;
+            while (a[i] <= temp && i < j) i++;
+            if (i < j) {
+                t = a[i];
+                a[i] = a[j];
+                a[j] = t;
+            }
+
+            //最后将基准数归位
+            a[lo] = a[i];
+            a[i] = temp;
+        }
+
+        QuickSort(a, lo, i - 1);//左半部分递归
+        QuickSort(a, i + 1, hi);//右半部分递归
+    }
+
+    /**
+     * 这里是快速排序的切分部分
+     * */
+    private static int partition(int[] a, int lo, int hi) {
+        int i = lo, j = hi + 1,k = a[lo], temp = 0;
+        while (true) {
+            while (a[++i] > a[lo] && i < j) break;//从左向右查找
+            while (a[--j] < a[lo] && j > i) break;
+            if(i >= j) break;
+            temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+        temp = a[lo];
+        a[lo] = a[j];
+        a[j] = temp;
+        return j;
     }
 }
