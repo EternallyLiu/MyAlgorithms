@@ -2,11 +2,11 @@ package com.example;
 
 public class AlgorithmsTest {
     public static void main(String[] args) {
-        int[] arr = {3,2,1,2,5,5};
-        QuickSort(arr, 0, arr.length - 1);
-        for (int z = 0; z < arr.length; z++) {
-            System.out.print(arr[z] + ",");
-        }
+        int[] arr = {0,1,2,3,4,5,6,7,8};
+        System.out.println(rank(6,arr,0,arr.length - 1));
+//        for (int z = 0; z < arr.length; z++) {
+//            System.out.print(arr[z] + ",");
+//        }
     }
 
     /**
@@ -164,6 +164,37 @@ public class AlgorithmsTest {
     }
 
     /**
+     * 快速排序改进：三项切分的快速排序，适用于重复元素比较多的时候
+     */
+    public static void ThreeQuickSort(int[] a, int lo, int hi) {
+        if(hi <= lo) return;
+        int lt = lo, i = lo + 1, gt = hi, temp = a[lo],t = 0;
+        while (i <= gt) {
+            int cmp = a[i] - temp;
+            if (cmp < 0) {
+                t = a[lt];
+                a[lt] = a[i];
+                a[i] = t;
+                lt++;
+                i++;
+            }
+            else if (cmp > 0) {
+                t = a[gt];
+                a[gt] = a[i];
+                a[i] = t;
+                gt--;
+                /**这里没有i++，因为我们已经知道lt右侧都是经过筛选的比切分元素小的元素，而与gt进行直接交换
+                 * 并不能确定交换过来的元素都是比切分元素要小的，故不需要使i++,而是继续使a[i]与切分元素进行比较
+                 * */
+            } else i++;
+        }
+
+        //接下来利用递归重新选取切分元素进行小数组内部的排序
+    ThreeQuickSort(a,lo, lt - 1);
+        ThreeQuickSort(a, gt + 1, hi);
+    }
+
+    /**
      * 这里是快速排序的切分部分
      * */
     private static int partition(int[] a, int lo, int hi) {
@@ -180,5 +211,19 @@ public class AlgorithmsTest {
         a[lo] = a[j];
         a[j] = temp;
         return j;
+    }
+
+    /**
+     * 二分查找：只需要查找几个条目就能够找到目标元素，所以效率比较高
+     * 二分查找需要先将数组元素按照从小到大的顺序排好
+     * */
+    public static int rank(int key,int[] a,int lo,int hi) {
+        if (hi < lo) return -1;
+        int mid = lo + (hi - lo)/ 2;
+        if(key > a[mid])
+            return rank(key, a, mid + 1, hi);
+        else if(key < a[mid])
+            return rank(key, a, lo, mid - 1);
+        else return mid;
     }
 }
