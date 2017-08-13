@@ -73,4 +73,17 @@ public class DoubleLinkedList<E> {
     public int getLength() {
         return length;
     }
+
+    /***
+     *反转输出一个单链表（双向链表我们这里作为单链表使用）
+     */
+    public void ReserverNodeList(Node node) {
+        Node returnNode = null;
+        while (node != null) {
+            Node preNode = node.next;
+            node.next = returnNode;
+            returnNode = node;
+            node = preNode;
+        }
+    }
 }
