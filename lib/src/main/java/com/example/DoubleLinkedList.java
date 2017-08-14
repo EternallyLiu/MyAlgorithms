@@ -77,7 +77,7 @@ public class DoubleLinkedList<E> {
     /***
      *反转输出一个单链表（双向链表我们这里作为单链表使用）
      */
-    public void ReserverNodeList(Node node) {
+    public Node ReserverNodeList(Node node) {
         Node returnNode = null;
         while (node != null) {
             Node preNode = node.next;
@@ -85,5 +85,6 @@ public class DoubleLinkedList<E> {
             returnNode = node;
             node = preNode;
         }
+        return returnNode;
     }
 }
