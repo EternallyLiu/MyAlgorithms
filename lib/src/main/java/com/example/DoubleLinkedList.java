@@ -74,17 +74,40 @@ public class DoubleLinkedList<E> {
         return length;
     }
 
-    /***
+    /**
      *反转输出一个单链表（双向链表我们这里作为单链表使用）
+     * 遍历反向输出单链表
      */
-    public Node ReserverNodeList(Node node) {
-        Node returnNode = null;
-        while (node != null) {
-            Node preNode = node.next;
-            node.next = returnNode;
-            returnNode = node;
-            node = preNode;
+    public Node ReserverNodeList1(Node node) {
+        if (node == null && node.next == null) {
+            return node;
         }
-        return returnNode;
+        Node pre = node;//保存上一节点
+        Node cur = node.next;//保存当前节点
+        Node tmp = null;//临时结点，用于保存当前结点的指针域（即下一结点）
+        while (cur != null) {
+            tmp = cur.next;
+            cur.next = pre;
+
+            pre = cur;
+            cur = tmp;
+        }
+        node.next = null;
+
+        return cur;
+    }
+
+    /**
+     *反转输出一个单链表（双向链表我们这里作为单链表使用）
+     * 递归反向输出单链表
+     */
+    public Node ReserverNodeList2(Node node){
+        if (node == null && node.next == null) {
+            return node;
+        }
+        Node reNode = ReserverNodeList2(node);//找到当前node节点的后一个节点，从尾节点开始
+        reNode.next = node;//使后面的节点指向前面的节点
+        node.next = null;//将前面的节点置为null
+        return node;
     }
 }
