@@ -94,7 +94,7 @@ public class DoubleLinkedList<E> {
         }
         node.next = null;
 
-        return cur;
+        return pre;
     }
 
     /**
@@ -109,5 +109,28 @@ public class DoubleLinkedList<E> {
         reNode.next = node;//使后面的节点指向前面的节点
         node.next = null;//将前面的节点置为null
         return node;
+    }
+
+    /**
+     * 刪除单链表含有相同元素的节点
+     * */
+    public Node deleteDuplication(Node head){
+        if (head == null && head.next == null) {
+            return head;
+        }
+        Node cur = null;
+        //含有重复元素
+        if (head.e == head.next.e) {
+            cur = head.next.next;
+            //我们直接跳过含有重复元素的节点，使其直接指向第一个不是重复元素的节点，即遍历到没有重复结点的位置
+            while (cur != null && cur.e == head.e){
+                cur = cur.next;
+            }
+            return deleteDuplication(cur);
+        }
+        //不含有重复元素，直接将下一个位置进行递归调用
+        cur = head.next;
+        head.next = deleteDuplication(cur);
+        return head;
     }
 }
